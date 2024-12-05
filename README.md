@@ -76,12 +76,11 @@ python FileSync.py
 ## 📞 Suporte
 
 ### Equipe de TI
-- **E-mail**: suporte@empresa.com.br
-- **Telefone**: (XX) XXXX-XXXX
+- **E-mail**: fpsouza@vibraenergia.com.br, fabriciopsouza@gmail.com
+- **Telefone**: (33) 9 8421-8744
 
 ### Responsável pelo Script
-- **Nome**: [Nome do Responsável]
-- **E-mail**: responsavel@empresa.com.br
+- **Nome**: Fabricio Pinheiro
 
 ## ℹ️ Observações
 - Guia desenvolvido para usuários sem conhecimento prévio em programação
