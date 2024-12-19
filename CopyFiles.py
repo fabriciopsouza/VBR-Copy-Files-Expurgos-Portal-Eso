@@ -5,7 +5,6 @@ import logging
 import sys
 from pathlib import Path
 import ctypes  # Para enviar notificações
-import time
 
 class FileSync:
     def __init__(self):
@@ -37,7 +36,6 @@ class FileSync:
     def send_notification(self, title, message):
         """Envia uma notificação ao usuário"""
         try:
-            # Para Windows
             ctypes.windll.user32.MessageBoxW(0, message, title, 0x1000)
         except Exception as e:
             self.logger.error(f"Erro ao enviar notificação: {e}")
@@ -96,32 +94,6 @@ class FileSync:
             self.send_notification("Erro", f"Erro ao copiar o arquivo: {e}")
             return False
 
-    def schedule_daily_run(self):
-        """Agenda a execução diária do script"""
-        try:
-            # Obter o caminho completo do script
-            script_path = os.path.abspath(sys.argv[0])
-
-            # Obter a hora atual
-            now = datetime.datetime.now()
-            run_time = now.strftime("%H:%M")
-
-            # Nome da tarefa
-            task_name = "FileSyncDailyTask"
-
-            # Comando para agendar a tarefa
-            import subprocess
-            command = f'schtasks /Create /F /SC DAILY /ST {run_time} /TN "{task_name}" /TR "{sys.executable} {script_path}"'
-
-            result = subprocess.run(command, shell=True, capture_output=True, text=True)
-            if result.returncode == 0:
-                self.logger.info("Tarefa agendada com sucesso.")
-            else:
-                self.logger.error(f"Erro ao agendar tarefa: {result.stderr}")
-
-        except Exception as e:
-            self.logger.error(f"Erro ao agendar execução diária: {e}")
-
     def check_missed_run(self):
         """Verifica se a execução diária foi perdida e executa se necessário"""
         last_run = self.get_last_run_time()
@@ -136,12 +108,6 @@ class FileSync:
     def run(self):
         """Executa o processo completo"""
         self.logger.info("Iniciando processo de sincronização...")
-
-        # Agendar execução diária na primeira vez
-        if not os.path.exists(self.last_run_file):
-            self.schedule_daily_run()
-
-        # Verifica se a execução diária foi perdida
         self.check_missed_run()
 
 if __name__ == "__main__":
